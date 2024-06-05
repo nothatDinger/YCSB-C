@@ -8,6 +8,7 @@
 #ifndef YCSB_C_LIB_STRING_HASHTABLE_H_
 #define YCSB_C_LIB_STRING_HASHTABLE_H_
 
+#include <cstddef>
 #include <vector>
 
 namespace vmp {

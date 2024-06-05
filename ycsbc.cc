@@ -310,17 +310,19 @@ inline bool StrStartWith(const char *str, const char *pre) {
 
 void Init(utils::Properties &props){
   props.SetProperty("dbname","basic");
-  props.SetProperty("dbpath","");
+  //props.SetProperty("dbpath","");
   props.SetProperty("load","false");
   props.SetProperty("run","false");
   props.SetProperty("threadcount","1");
   props.SetProperty("dboption","0");
   props.SetProperty("dbstatistics","false");
   props.SetProperty("dbwaitforbalance","false");
+  props.SetProperty("file_path_prefix","/home/td/test/");
 }
 
 void PrintInfo(utils::Properties &props) {
-  printf("---- dbname:%s  dbpath:%s ----\n", props["dbname"].c_str(), props["dbpath"].c_str());
+  string dbpath = props.GetProperty("file_path_prefix")+"rocksdb_file";
+  printf("---- dbname:%s  dbpath:%s ----\n", props.GetProperty("dbname","rocksdb").c_str(),props.GetProperty("dbpath",dbpath).c_str());
   printf("%s", props.DebugString().c_str());
   printf("----------------------------------------\n");
   fflush(stdout);

@@ -1,34 +1,25 @@
-
-# Rocksdb的头文件
-# ROCKSDB_INCLUDE=/home/ubuntu/cloud/rocksdb-mutssd/include
-# # RocksDB 的静态链接库
-# ROCKSDB_LIBRARY=/home/ubuntu/cloud/rocksdb-mutssd/build/librocksdb.a  
-# ROCKSDB_LIB=/home/ubuntu/cloud/rocksdb-mutssd/build/build/
-# HDR_LIB=/usr/local/lib
-
-ROCKSDB_INCLUDE=/home/ubuntu/zyh/rocksdb-cf/rocksdb-mutssd/include
-# RocksDB 的静态链接库
-ROCKSDB_LIBRARY=/home/ubuntu/zyh/rocksdb-cf/rocksdb-mutssd/build/librocksdb.a  
-ROCKSDB_LIB=/home/ubuntu/zyh/rocksdb-cf/rocksdb-mutssd/build/
-HDR_LIB=/usr/local/lib
+export HDR_LIB_PATH=/home/td/HdrHistogram_c/build
+export HDR_INCLUDE_PATH=/home/td/HdrHistogram_c/include
+export ROCKSDB_INCLUDE_PATH=/home/td/rocksdb-6.10.1/include
+export ROCKSDB_LIB_PATH=/home/td/rocksdb-6.10.1/
 
 CC=g++
-CFLAGS=-std=c++11 -g -Wall -pthread -I./ -I$(ROCKSDB_INCLUDE) -L$(ROCKSDB_LIB)
-#LDFLAGS= -lpthread -lrocksdb -lz -lbz2 -llz4 -ldl -lsnappy -lnuma -lzstd -lhdr_histogram -lboost_regex -lboost_iostreams -L$(HDR_LIB) 
-LDFLAGS= -lpthread -lz -lbz2 -llz4 -ldl -lsnappy -L$(HDR_LIB) -lhdr_histogram -lzstd ${ROCKSDB_LIBRARY} 
-SUBDIRS= core db 
+CFLAGS=-std=c++11 -g -Wall
+LDFLAGS=-lhdr_histogram -L$(HDR_LIB_PATH) -lpthread -lrocksdb -L${ROCKSDB_LIB_PATH} -Wl,-rpath=${ROCKSDB_LIB_PATH} -Wl,-rpath=${HDR_LIB_PATH}
+INCLUDE=-I. 
+SUBDIRS= core db
 SUBSRCS=$(wildcard core/*.cc) $(wildcard db/*.cc)
-OBJECTS=$(SUBSRCS:.cc=.o)
+SRC=$(wildcard *.cc)
+SUBOBJ=$(SUBSRCS:.cc=.o)
 EXEC=ycsbc
 
 all: $(SUBDIRS) $(EXEC)
 
 $(SUBDIRS):
-	#$(MAKE) -C $@
-	$(MAKE) -C $@ ROCKSDB_INCLUDE=${ROCKSDB_INCLUDE} ROCKSDB_LIBRARY=${ROCKSDB_LIBRARY}
+	make -C $@
 
-$(EXEC): $(wildcard *.cc) $(OBJECTS)
-	$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
+$(EXEC): $(SUBOBJ) $(SRC)
+	$(CC) $(INCLUDE)  $(CFLAGS)  $^ $(LDFLAGS)  -o $@ 
 
 clean:
 	for dir in $(SUBDIRS); do \
@@ -37,4 +28,3 @@ clean:
 	$(RM) $(EXEC)
 
 .PHONY: $(SUBDIRS) $(EXEC)
-

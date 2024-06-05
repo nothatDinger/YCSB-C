@@ -10,6 +10,7 @@
 #define YCSB_C_CLIENT_H_
 
 #include <string>
+#include "core/timer.h"
 #include "db.h"
 #include "core_workload.h"
 #include "utils.h"

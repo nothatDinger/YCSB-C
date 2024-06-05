@@ -1,15 +1,16 @@
-
 CC=g++
-CFLAGS=-std=c++11 -c -g -Wall -fgnu-tm -lrocksdb
-INCLUDES=-I../ -I${ROCKSDB_INCLUDE} -L${ROCKSDB_LIBRARY}
-SOURCES=$(wildcard *.cc)
-OBJECTS=$(SOURCES:.cc=.o)
+CFLAGS=-std=c++11 -c -g -Wall 
+INCLUDE=-I../ -I${ROCKSDB_INCLUDE_PATH} -I$(HDR_INCLUDE_PATH)
+SRC=$(wildcard *.cc)
+OBJ=$(SRC:.cc=.o)
 
-all: $(SOURCES) $(OBJECTS)
+all: $(OBJ)
 
-.cc.o:
-	$(CC) $(CFLAGS) $(INCLUDES) $< -o $@
+%.o: %.cc
+	$(CC) $(CFLAGS) $(INCLUDE) $< -o $@ 
 
 clean:
-	$(RM) $(OBJECTS)
+	$(RM) $(OBJ)
+
+.PHONY: clean
 

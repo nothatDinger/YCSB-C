@@ -162,13 +162,14 @@ void CoreWorkload::Init(const utils::Properties &p) {
     throw utils::Exception("Distribution not allowed for scan length: " +
         scan_len_dist);
   }
-
-  if((fp_=fopen("/home/ubuntu/trace/trace_zyh.data","r"))==NULL){
-     printf("open trace_zyh.data error\n");
+  file_path_prefix_ = p.GetProperty("file_path_prefix");
+  
+  if((fp_=fopen((file_path_prefix_+"trace_zyh.data").c_str(),"r"))==NULL){
+     printf("open trace_zyh.data error:%s\n",(file_path_prefix_+"trace_zyh.data").c_str());
      exit(1);
   }
 
-  if((fp_load_=fopen("/home/ubuntu/trace/load_trace.data","r"))==NULL){
+  if((fp_load_=fopen((file_path_prefix_+"load_trace.data").c_str(),"r"))==NULL){
      printf("open trace_zyh.data error\n");
      exit(1);
   }

@@ -20,7 +20,9 @@ DB* DBFactory::CreateDB(utils::Properties &props) {
   if (props["dbname"] == "basic") {
     return new BasicDB;
   } else if (props["dbname"] == "rocksdb") {
-    std::string dbpath = props.GetProperty("dbpath","/tmp/test-rocksdb");
+    std::string prefix = props.GetProperty("file_path_prefix");
+    std::string dbpath = props.GetProperty("dbpath",prefix+"rocksdb_file");
+    cout <<"db:"<<dbpath.c_str()<<endl;
     return new RocksDB(dbpath.c_str(), props);
   } else return NULL;
 }

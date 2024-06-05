@@ -188,12 +188,15 @@ class CoreWorkload {
   size_t record_count_;
   FILE* fp_;
   FILE* fp_load_;
+
+  std::string file_path_prefix_;
 };
 
 inline std::string CoreWorkload::NextSequenceKey() {
   //uint64_t key_num = key_generator_->Next();
   if(fp_load_==nullptr){
-    if((fp_load_=fopen("/home/ubuntu/trace/load_trace.data","r"))==NULL){
+
+    if((fp_load_=fopen((file_path_prefix_+"load_trace.data").c_str(),"r"))==NULL){
     	printf("open trace error\n");
     	exit(0);
     }
@@ -213,7 +216,7 @@ inline std::string CoreWorkload::NextTransactionKey() {
   //} while (key_num > insert_key_sequence_.Last());
   
   if(fp_==NULL){
-     if((fp_=fopen("/home/ubuntu/trace/trace_zyh.data","r"))==NULL){
+     if((fp_=fopen((file_path_prefix_+"trace_zyh.data").c_str(),"r"))==NULL){
           printf("open trace_zyh.data error\n");
 	  exit(1);
      }

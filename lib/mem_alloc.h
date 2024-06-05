@@ -8,6 +8,7 @@
 #ifndef VM_PERSISTENCE_MEM_ALLOC_H_
 #define VM_PERSISTENCE_MEM_ALLOC_H_
 
+#include <cstdlib>
 #include <cstring>
 
 struct MemAlloc {

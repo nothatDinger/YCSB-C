@@ -4,8 +4,8 @@
 
 
 #include <stdint.h>
-#include <string.h>
 #include <string>
+#include "lib/string.hh"
 
 #define KLittleEndian true  //默认小端方式
 
